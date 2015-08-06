@@ -3,13 +3,13 @@
  * @copyright  Copyright (c) 2015 Brian Tam
  * @author     Brian Tam [bt] <brian@imarc.net>
  * @license    MIT
- * 
+ *
  * @version    1.0.0
  * @changes    1.0.0  The initial implementation [bt, 2015-02-12]
  */
 
 class ICS {
-	
+
 	/**
 	 * Initialize ICS parameters, this will not pass validation alone
 	 */
@@ -24,18 +24,18 @@ class ICS {
 		'location'    => NULL,
 		'description' => NULL,
 		'categories'  => NULL
-	); 
+	);
 
 	/**
 	 * Creates a new ICS object
-	 * 
-	 * @param  array $params  An associative array of parameters for the ICS file 
+	 *
+	 * @param  array $params  An associative array of parameters for the ICS file
 	 * @return ICS
 	 */
 	public function __construct($params = NULL) {
 
 		if (is_array($params)) {
-		
+
 			foreach ($params as $param => $value) {
 
 				$this->__set($param, $value);
@@ -43,12 +43,12 @@ class ICS {
 			}
 
 		}
-		
+
 	}
 
 	/**
 	 * Set a parameter
-	 * 
+	 *
 	 * @param  string $param  Parameter to set
 	 * @param  string $value  Value to set
 	 * @return void
@@ -67,24 +67,24 @@ class ICS {
 				case 'summary':
 				case 'location':
 				case 'description':
-					$value = strip_tags($value);
-					$value = str_replace(array("&nbsp;", ",", ";", ":", "\r\n"), array(" ", "\,", "\;", "\:", '\n'), $value);
+					$value = format($value);
 
-				default: 
+
+				default:
 					$value = strip_tags($value);
 					break;
 
 			}
 
 			$this->data[$param] = $value;
-		
+
 		}
 
 	}
 
 	/**
 	 * Get a parameter
-	 * 
+	 *
 	 * @param  string $param  Parameter to set
 	 * @param  string $value  Value to set
 	 * @return void
@@ -112,7 +112,7 @@ class ICS {
 
 	/**
 	 * Output the ICS
-	 * 
+	 *
 	 * @return string The ICS file as a string
 	 */
 	public function __toString() {
@@ -149,4 +149,29 @@ class ICS {
 
 		return $out;
 	}
+
+	/**
+	 * Format a string for export to ics
+	 *
+	 * @param string $text The string to format
+	 * @return string
+	 */
+	private function format($text) {
+
+		$translations = array(
+			"</p>"   => '.\n  ',
+			"\r\n"   => '\n',
+			"&nbsp;" => ' ',
+			","      => '\,',
+			";"      => '\;',
+			":"      => '\:'
+		);
+
+		$text = strip_tags($text);
+		$text = str_replace(array_keys($translations), array_values($translations), $text);
+		$text = html_entity_decode($text);
+
+		return $text;
+	}
+
 }
