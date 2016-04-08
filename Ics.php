@@ -1,4 +1,7 @@
 <?php
+
+namespace vOutput;
+
 /**
  * @copyright  Copyright (c) 2015 Brian Tam
  * @author     Brian Tam [bt] <brian@imarc.net>
@@ -8,7 +11,9 @@
  * @changes    1.0.0  The initial implementation [bt, 2015-02-12]
  */
 
-class ICS {
+class Ics {
+
+	private static $timezones;
 
 	/**
 	 * Initialize ICS parameters, this will not pass validation alone
@@ -25,6 +30,50 @@ class ICS {
 		'description' => NULL,
 		'categories'  => NULL
 	);
+	private $timezone_data = '';
+
+	static private function generateTimezoneCode($timezone) {
+		if ($timezone_data = self::$timezones[$timezone]) {
+			$out = array();
+			$out[] = 'BEGIN:VTIMEZONE';
+			$out[] = 'TZID:' . $timezone;
+			if ($timezone_data['daylight']) {
+				$out[] = 'BEGIN:STANDARD';
+				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
+				$out[] = 'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10';
+				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset'] - 1);
+				$out[] = 'TZNAME:' . $timezone . '-STANDARD';
+				$out[] = 'END:STANDARD';
+				$out[] = 'BEGIN:DAYLIGHT';
+				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
+				$out[] = 'RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4';
+				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset'] - 1);
+				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'TZNAME:' . $timezone . '-DAYLIGHT';
+				$out[] = 'END:DAYLIGHT';
+			} else {
+				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
+				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+			}
+			$out[] = 'END:VTIMEZONE';
+			return join("\r\n", $out);
+		} else {
+			throw new \Exception('Timezone: ' . $timezone . ' not supported');
+		}
+
+	}
+
+	static private function padTimezoneOffset($gmt_offset) {
+		$gmt_offset  = number_format(floatval($gmt_offset), 2, '', '');
+		$gmt_offset  = strval($gmt_offset);
+		$sign        = strpos($gmt_offset, '-') === 0 ? '-' : '';
+		$gmt_offset  = str_replace('-', '', $gmt_offset);
+		$gmt_offset  = str_pad($gmt_offset, 4, '0', STR_PAD_LEFT);
+		$gmt_offset  = $sign . $gmt_offset;
+		return $gmt_offset;
+	}
 
 	/**
 	 * Creates a new ICS object
@@ -33,6 +82,7 @@ class ICS {
 	 * @return ICS
 	 */
 	public function __construct($params = NULL) {
+		require('data/timezones.php');
 
 		if (is_array($params)) {
 
@@ -67,8 +117,12 @@ class ICS {
 				case 'summary':
 				case 'location':
 				case 'description':
-					$value = format($value);
+					$value = $this->format($value);
+					break;
 
+				case 'timezone':
+					$this->timezone_data = self::generateTimezoneCode($value);
+					break;
 
 				default:
 					$value = strip_tags($value);
@@ -122,9 +176,11 @@ class ICS {
 		$out[] = "BEGIN:VCALENDAR";
 		$out[] = "VERSION:2.0";
 		$out[] = "PRODID:" . $this->prodid;
+		if ($this->timezone_data) {
+			$out[] = $this->timezone_data;
+		}
 		$out[] = "BEGIN:VEVENT";
 		$out[] = "UID:" . $this->uid;
-
 		$out[] = "DTSTAMP;TZID=". $this->timezone . ":" . $timestamp;
 		$out[] = "DTSTART;TZID=". $this->timezone . ":" . $this->start_date;
 		$out[] = "DTEND;TZID="  . $this->timezone . ":" . $this->end_date;
@@ -173,5 +229,7 @@ class ICS {
 
 		return $text;
 	}
+
+
 
 }
