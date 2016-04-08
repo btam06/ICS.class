@@ -18,6 +18,16 @@ self::$timezones = array(
         'gmt_offset' => -7,
         'daylight'   => TRUE
     ),
+    'US-Mountain' => array(
+        'gmt_offset' => -6,
+        'daylight'   => TRUE
+    ),
+
+    'US-Central' => array(
+        'gmt_offset' => -5,
+        'daylight'   => TRUE
+    ),
+
     'US-Eastern' => array(
         'gmt_offset' => -4,
         'daylight'   => TRUE
