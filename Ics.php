@@ -22,7 +22,7 @@ class Ics {
 		'organizer'   => 'noreply@imarc.net',
 		'uid'         => NULL,
 		'prodid'      => NULL,
-		'timezone'    => 'US-New_York-New_York',
+		'timezone'    => 'US-Eastern',
 		'start_date'  => NULL,
 		'end_date'    => NULL,
 		'summary'     => NULL,
