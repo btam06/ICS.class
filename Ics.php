@@ -1,19 +1,19 @@
 <?php
-
-namespace vOutput;
-
 /**
  * @copyright  Copyright (c) 2015 Brian Tam
  * @author     Brian Tam [bt] <brian@imarc.net>
  * @license    MIT
- *
- * @version    1.0.0
- * @changes    1.0.0  The initial implementation [bt, 2015-02-12]
  */
 
 class Ics {
 
-	private static $timezones;
+	private static $timezones = [
+		'Eastern'        => ['gmt_offset' => -5, 'daylight' => TRUE],
+		'Central'        => ['gmt_offset' => -6, 'daylight' => TRUE],
+		'Mountain'       => ['gmt_offset' => -7, 'daylight' => TRUE],
+		'Pacific'        => ['gmt_offset' => -8, 'daylight' => TRUE],
+		'America/Denver' => ['gmt_offset' => -7, 'daylight' => TRUE]
+	];
 
 	/**
 	 * Initialize ICS parameters, this will not pass validation alone
@@ -22,7 +22,7 @@ class Ics {
 		'organizer'   => 'noreply@imarc.net',
 		'uid'         => NULL,
 		'prodid'      => NULL,
-		'timezone'    => 'US-Eastern',
+		'timezone'    => 'Eastern',
 		'start_date'  => NULL,
 		'end_date'    => NULL,
 		'summary'     => NULL,
@@ -38,22 +38,25 @@ class Ics {
 			$out[] = 'BEGIN:VTIMEZONE';
 			$out[] = 'TZID:' . $timezone;
 			if ($timezone_data['daylight']) {
-				$out[] = 'BEGIN:STANDARD';
-				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
-				$out[] = 'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10';
-				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
-				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset'] - 1);
-				$out[] = 'TZNAME:' . $timezone . '-STANDARD';
-				$out[] = 'END:STANDARD';
+
 				$out[] = 'BEGIN:DAYLIGHT';
-				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
-				$out[] = 'RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4';
-				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset'] - 1);
-				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'DTSTART: 19671029T020000';
+				$out[] = 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU';
+				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset'] + 1);
 				$out[] = 'TZNAME:' . $timezone . '-DAYLIGHT';
 				$out[] = 'END:DAYLIGHT';
+
+				$out[] = 'BEGIN:STANDARD';
+				$out[] = 'DTSTART: 19671029T020000';
+				$out[] = 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU';
+				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset'] + 1);
+				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
+				$out[] = 'TZNAME:' . $timezone . '-STANDARD';
+				$out[] = 'END:STANDARD';
+
 			} else {
-				$out[] = 'DTSTART:' . TIMEZONE_START_DATE;
+				$out[] = 'DTSTART: 19671029T020000';
 				$out[] = 'TZOFFSETFROM:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
 				$out[] = 'TZOFFSETTO:' . self::padTimezoneOffset($timezone_data['gmt_offset']);
 			}
@@ -82,8 +85,6 @@ class Ics {
 	 * @return ICS
 	 */
 	public function __construct($params = NULL) {
-		require('data/timezones.php');
-
 		if (is_array($params)) {
 
 			foreach ($params as $param => $value) {
