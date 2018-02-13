@@ -1,19 +1,23 @@
 <?php
 include('../vendor/autoload.php');
-include('../Ics.php');
 try {
-    $ics = new Itzamna\Ics(array(
-        'organizer'   => 'noreply@imarc.net',
-        'uid'         => NULL,
-        'prodid'      => NULL,
-        'timezone'    => 'Eastern',
-        'start_date'  => '2016-04-07 5:00:00',
-        'end_date'    => '2016-04-07 6:00:00',
-        'summary'     => 'test',
-        'location'    => NULL,
-        'description' => NULL,
-        'categories'  => NULL
-    ));
+    $ics = new Itzamna\Ics();
+    $event = new Itzamna\Event();
+
+    $ics->setProdid('prodid');
+
+    $event->setOrganizer('organizer@mail.com');
+    $event->setUid('19');
+    $event->setTimezone(-7);
+    $event->setStartDate('-5 days');
+    $event->setEndDate('+1 days');
+    $event->setSummary('Test');
+    $event->setLocation('Here');
+    $event->setDescription('A test event');
+    $event->setCategories('Tests');
+
+    $ics->addEvent($event);
+
 } catch (Exception $e) {
     echo $e->getMessage();
 }
