@@ -121,7 +121,6 @@ class Ics {
 				$timezones[] = 'BEGIN:VTIMEZONE';
 				$timezones[] = 'TZID:' . $this->formatText($timezone);
 
-
 				foreach ($transitions as $transition) {
 					if ($transition['isdst']) {
 						$dst = TRUE;
