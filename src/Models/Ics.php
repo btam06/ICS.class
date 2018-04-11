@@ -193,6 +193,7 @@ class Ics {
 
 		$translations = array(
 			"</p>"   => '.\n  ',
+			"<br/>"  => '\n',
 			"\r\n"   => '\n',
 			"&nbsp;" => ' ',
 			","      => '\,',
@@ -200,7 +201,7 @@ class Ics {
 			":"      => '\:'
 		);
 
-		$text = strip_tags($text);
+		$text = strip_tags($text, '<a>');
 		$text = str_replace(array_keys($translations), array_values($translations), $text);
 		$text = html_entity_decode($text);
 
