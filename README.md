@@ -3,21 +3,21 @@ Itzamna ICS is a tool intended to be able to easily generate an ICS file.
 
 # Concepts
 ## Events
-Itzamna includes an event object, but you can use any event that implements the included EventInterface.
+Itzamna includes an event object, but you can use any event that implements the included EventInterface to set and get related fields.
 
 ### Fields
 TODO: Definitions
-| Field | Description |
-| ----- | -----------|
-| Organizer | |
-| Uid | |
-| Timezone*   | Event time zone        |
-| Start Date* | Event start date       |
-| End Date*   | Event end date         |
-| Summary     | Short summary          |
-| Location    | Location string        |
-| Description | Full event description |
-| Categories  | |
+ Field       | Description
+ ----------- | ----------------------
+ Organizer   | TODO
+ Uid         | TODO
+ Timezone*   | Event time zone        
+ Start Date* | Event start date       
+ End Date*   | Event end date         
+ Summary     | Short summary          
+ Location    | Location string        
+ Description | Full event description
+ Categories  | TODO
 
 \*: Note that all date/time fields use [Carbon](https://carbon.nesbot.com/docs/) and will accept any valid value that carbon will for those fields.
 
