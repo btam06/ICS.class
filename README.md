@@ -48,5 +48,5 @@ echo $ics;
 ```
 
 # External Resources
-[ICS Property Resource](https://tools.ietf.org/html/rfc5545)
-[Carbon](https://carbon.nesbot.com/docs/)
+* [ICS Property Resource](https://tools.ietf.org/html/rfc5545)
+* [Carbon](https://carbon.nesbot.com/docs/)
