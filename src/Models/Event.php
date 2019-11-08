@@ -5,8 +5,8 @@ use Carbon\Carbon;
 use \Exception;
 use \InvalidArgumentException;
 /**
- * @copyright  Copyright (c) 2018 Brian Tam
- * @author     Brian Tam [bt] <btam06@gmail.com>
+ * @copyright  Copyright (c) 2018 Avery Tam
+ * @author     Avery Tam [bt] <btam06@gmail.com>
  * @license    MIT
  */
 class Event implements EventInterface
@@ -66,100 +66,100 @@ class Event implements EventInterface
         protected $categories;
 
         /**
-    	 * [getOrganizer description]
+    	 * [getICSOrganizer description]
     	 * @return [type] [description]
     	 */
-    	public function getOrganizer() {
+    	public function getICSOrganizer() {
     		return $this->organizer;
     	}
 
     	/**
-    	 * [getUid description]
+    	 * [getICSUid description]
     	 * @return [type] [description]
     	 */
-    	public function getUid() {
+    	public function getICSUid() {
     		return $this->uid;
     	}
 
     	/**
-    	 * [getTimezone description]
+    	 * [getICSTimezone description]
     	 * @return [type] [description]
     	 */
-    	public function getTimezone() {
+    	public function getICSTimezone() {
     		return $this->timezone;
     	}
 
     	/**
-    	 * [getStartDate description]
+    	 * [getICSStartDate description]
     	 * @return [type] [description]
     	 */
-    	public function getStartDate() {
+    	public function getICSStartDate() {
     		return $this->startDate;
     	}
 
     	/**
-    	 * [getEndDate description]
+    	 * [getICSEndDate description]
     	 * @return [type] [description]
     	 */
-    	public function getEndDate() {
+    	public function getICSEndDate() {
     		return $this->endDate;
     	}
 
     	/**
-    	 * [getSummary description]
+    	 * [getICSSummary description]
     	 * @return [type] [description]
     	 */
-    	public function getSummary() {
+    	public function getICSSummary() {
     		return $this->summary;
     	}
 
     	/**
-    	 * [getLocation description]
+    	 * [getICSLocation description]
     	 * @return [type] [description]
     	 */
-    	public function getLocation() {
+    	public function getICSLocation() {
     		return $this->location;
     	}
 
     	/**
-    	 * [getDescription description]
+    	 * [getICSDescription description]
     	 * @return [type] [description]
     	 */
-    	public function getDescription() {
+    	public function getICSDescription() {
     		return $this->description;
     	}
 
     	/**
-    	 * [getCategories description]
+    	 * [getICSCategories description]
     	 * @return [type] [description]
     	 */
-    	public function getCategories() {
+    	public function getICSCategories() {
     		return $this->categories;
     	}
 
     	/**
-    	 * [setOrganizer description]
+    	 * [setICSOrganizer description]
     	 * @param [type] $organizer [description]
     	 */
-    	public function setOrganizer($organizer) {
+    	public function setICSOrganizer($organizer) {
     		$this->organizer = strip_tags($organizer);
     		return $this;
     	}
 
     	/**
-    	 * [setUid description]
+    	 * [setICSUid description]
     	 * @param [type] $uid [description]
     	 */
-    	public function setUid($uid) {
+    	public function setICSUid($uid) {
     		$this->uid = strip_tags($uid);
     		return $this;
     	}
 
     	/**
-    	 * [setTimezone description]
+    	 * [setICSTimezone description]
     	 * @param [type] $timezone [description]
     	 */
-    	public function setTimezone($timezone) {
+    	public function setICSTimezone($timezone) {
             try {
                 $timestamp = new Carbon();
                 $timestamp->setTimezone($timezone);
@@ -171,55 +171,55 @@ class Event implements EventInterface
     	}
 
     	/**
-    	 * [setStartDate description]
+    	 * [setICSStartDate description]
     	 * @param [type] $start_date [description]
     	 */
-    	public function setStartDate($start_date) {
+    	public function setICSStartDate($start_date) {
     		$this->startDate = $start_date;
     		return $this;
     	}
 
     	/**
-    	 * [setEndDate description]
+    	 * [setICSEndDate description]
     	 * @param [type] $end_date [description]
     	 */
-    	public function setEndDate($end_date) {
+    	public function setICSEndDate($end_date) {
     		$this->endDate = $end_date;
     		return $this;
     	}
 
     	/**
-    	 * [setSummary description]
+    	 * [setICSSummary description]
     	 * @param [type] $summary [description]
     	 */
-    	public function setSummary($summary) {
+    	public function setICSSummary($summary) {
     		$this->summary = $summary;
     		return $this;
     	}
 
     	/**
-    	 * [setLocation description]
+    	 * [setICSLocation description]
     	 * @param [type] $location [description]
     	 */
-    	public function setLocation($location) {
+    	public function setICSLocation($location) {
     		$this->location = $location;
     		return $this;
     	}
 
     	/**
-    	 * [setDescription description]
+    	 * [setICSDescription description]
     	 * @param [type] $description [description]
     	 */
-    	public function setDescription($description) {
+    	public function setICSDescription($description) {
     		$this->description = $description;
     		return $this;
     	}
 
     	/**
-    	 * [setCategories description]
+    	 * [setICSCategories description]
     	 * @param [type] $categories [description]
     	 */
-    	public function setCategories($categories) {
+    	public function setICSCategories($categories) {
     		$this->categories = strip_tags($categories);
     		return $this;
     	}

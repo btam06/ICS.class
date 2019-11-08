@@ -4,17 +4,17 @@ try {
     $ics = new Itzamna\Ics();
     $event = new Itzamna\Event();
 
-    $ics->setProdid('prodid');
+    $ics->setICSProdid('prodid');
 
-    $event->setOrganizer('organizer@mail.com');
-    $event->setUid('19');
-    $event->setTimezone(-7);
-    $event->setStartDate('-5 days');
-    $event->setEndDate('+1 days');
-    $event->setSummary('Test');
-    $event->setLocation('Here');
-    $event->setDescription('A test event');
-    $event->setCategories('Tests');
+    $event->setICSOrganizer('organizer@mail.com');
+    $event->setICSUid('19');
+    $event->setICSTimezone(-7);
+    $event->setICSStartDate('-5 days');
+    $event->setICSEndDate('+1 days');
+    $event->setICSSummary('Test');
+    $event->setICSLocation('Here');
+    $event->setICSDescription('A test event');
+    $event->setICSCategories('Tests');
 
     $ics->addEvent($event);
 

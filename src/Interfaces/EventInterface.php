@@ -2,8 +2,8 @@
 namespace Itzamna;
 
 /**
- * @copyright  Copyright (c) 2018 Brian Tam
- * @author     Brian Tam [bt] <btam06@gmail.com>
+ * @copyright  Copyright (c) 2018 Avery Tam
+ * @author     Avery Tam [at] <btam06@gmail.com>
  * @license    MIT
  */
 interface EventInterface
@@ -11,53 +11,53 @@ interface EventInterface
     /**
      *
      */
-    public function getOrganizer();
+    public function getICSOrganizer();
 
      /**
-      * [getUid description]
+      * [getICSUid description]
       * @return [type] [description]
       */
-    public function getUid();
+    public function getICSUid();
 
     /**
-     * [getTimezone description]
+     * [getICSTimezone description]
      * @return [type] [description]
      */
-    public function getTimezone();
+    public function getICSTimezone();
 
     /**
-     * [getStartDate description]
+     * [getICSStartDate description]
      * @return [type] [description]
      */
-    public function getStartDate();
+    public function getICSStartDate();
 
     /**
-     * [getEndDate description]
+     * [getICSEndDate description]
      * @return [type] [description]
      */
-    public function getEndDate();
+    public function getICSEndDate();
 
     /**
-     * [getSummary description]
+     * [getICSSummary description]
      * @return [type] [description]
      */
-    public function getSummary();
+    public function getICSSummary();
 
     /**
-     * [getLocation description]
+     * [getICSLocation description]
      * @return [type] [description]
      */
-    public function getLocation();
+    public function getICSLocation();
 
     /**
-     * [getDescription description]
+     * [getICSDescription description]
      * @return [type] [description]
      */
-    public function getDescription();
+    public function getICSDescription();
 
     /**
-     * [getCategories description]
+     * [getICSCategories description]
      * @return [type] [description]
      */
-    public function getCategories();
+    public function getICSCategories();
 }

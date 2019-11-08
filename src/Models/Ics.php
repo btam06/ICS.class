@@ -6,8 +6,8 @@ use Exception;
 use InvalidArgumentException;
 
 /**
- * @copyright  Copyright (c) 2018 Brian Tam
- * @author     Brian Tam [bt] <btam06@gmail.com>
+ * @copyright  Copyright (c) 2018 Avery Tam
+ * @author     Avery Tam [bt] <btam06@gmail.com>
  * @license    MIT
  */
 class Ics {
@@ -27,25 +27,6 @@ class Ics {
 
 
 	/**
-	 * Creates a new ICS object
-	 *
-	 * @param  array $params  An associative array of parameters for the ICS file
-	 * @return ICS
-	 */
-	public function __construct() {
-		switch(php_sapi_name()) {
-			case 'cli':
-				$eol = PHP_EOL;
-				break;
-			default:
-				$eol = "\r\n";
-				break;
-		}
-		define('EOL', $eol);
-	}
-
-
-	/**
 	 * Output the ICS
 	 *
 	 * @return string The ICS file as a string
@@ -60,7 +41,7 @@ class Ics {
 	 * @param EventInterface $event [description]
 	 */
 	public function addEvent(EventInterface $event) {
-		$this->events[$event->getUid()] = $event;
+		$this->events[$event->getICSUid()] = $event;
 		return $this;
 	}
 
@@ -77,7 +58,7 @@ class Ics {
 	 * [setProdid description]
 	 * @param [type] $prodid [description]
 	 */
-	public function setProdid($prodid) {
+	public function setICSProdid($prodid) {
 		$this->prodid = strip_tags($prodid);
 		return $this;
 	}
@@ -108,7 +89,7 @@ class Ics {
 		$timezone_data = array();
 		foreach ($this->getEvents() as $event) {
 			// Add timezone code for events if it's new
-			$timestamp->setTimezone($event->getTimezone());
+			$timestamp->setTimezone($event->getICSTimezone());
 			if (!in_array($timestamp->timezoneName, $timezone_data) && ($timezone = $timestamp->timezoneName)) {
 				$dst = FALSE;
 				$transitions = $timestamp->timezone->getTransitions(
@@ -152,21 +133,21 @@ class Ics {
 				$timezones[] = 'END:VTIMEZONE';
 			}
 			$events[] = "BEGIN:VEVENT";
-			$events[] = "UID:" . $event->getUid();
+			$events[] = "UID:" . $event->getICSUid();
 			$events[] = "DTSTAMP;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($timestamp);
-			$events[] = "DTSTART;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($event->getStartDate());
-			$events[] = "DTEND;TZID="  . $this->formatText($timezone) . ":" . $this->formatDate($event->getEndDate());
+			$events[] = "DTSTART;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($event->getICSStartDate());
+			$events[] = "DTEND;TZID="  . $this->formatText($timezone) . ":" . $this->formatDate($event->getICSEndDate());
 
-			$events[] = "SUMMARY:"          . $this->formatText($event->getSummary());
+			$events[] = "SUMMARY:"          . $this->formatText($event->getICSSummary());
 
-			if ($event->getLocation()) {
-				$events[] = "LOCATION:"     . $this->formatText($event->getLocation());
+			if ($event->getICSLocation()) {
+				$events[] = "LOCATION:"     . $this->formatText($event->getICSLocation());
 			}
-			$events[] = "DESCRIPTION:"      . $this->formatText($event->getDescription());
-			$events[] = "ORGANIZER:MAILTO:" . $event->getOrganizer();
+			$events[] = "DESCRIPTION:"      . $this->formatText($event->getICSDescription());
+			$events[] = "ORGANIZER:MAILTO:" . $event->getICSOrganizer();
 
-			if ($event->getCategories()) {
-				$events[] = "CATEGORIES:"   . $event->getCategories();
+			if ($event->getICSCategories()) {
+				$events[] = "CATEGORIES:"   . $event->getICSCategories();
 			}
 
 			$events[] = "CLASS:PUBLIC";
@@ -178,7 +159,11 @@ class Ics {
 
 		$out[] = "END:VCALENDAR";
 
-		$out = join(EOL, $out);
+		$out = join("\r\n", $out);
+
+		if (php_sapi_name() == 'cli') {
+			$out = str_replace("\r\n", PHP_EOL, $out);
+		}
 
 		return $out;
 	}
