@@ -7,6 +7,7 @@ Itzamna includes an event object, but you can use any event that implements the 
 
 ### Fields
 TODO: Definitions
+
  Field       | Description
  ----------- | ----------------------
  Organizer   | TODO
