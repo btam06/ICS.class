@@ -25,6 +25,11 @@ class Ics {
      */
     protected $prodid;
 
+	/**
+	 *
+	 */
+	protected $defaultTimezone = NULL;
+
 
 	/**
 	 * Output the ICS
@@ -64,6 +69,22 @@ class Ics {
 	}
 
 	/**
+	 *
+	 */
+	public function setDefaultTimezone($timezone)
+	{
+		$this->defaultTimezone = $timezone;
+	}
+
+	/**
+	 *
+	 */
+	public function getDefaultTimezone()
+	{
+		return $this->defaultTimezone;
+	}
+
+	/**
 	 * [getProdid description]
 	 * @return [type] [description]
 	 */
@@ -89,7 +110,16 @@ class Ics {
 		$timezone_data = array();
 		foreach ($this->getEvents() as $event) {
 			// Add timezone code for events if it's new
-			$timestamp->setTimezone($event->getICSTimezone());
+			if ($event->getICSTimezone()) {
+				$timestamp->setTimezone($event->getICSTimezone());
+
+			} elseif ($this->getDefaultTimezone()) {
+				$timestamp->setTimezone($this->getDefaultTimezone());
+
+			} else {
+				throw new Exception('No timezone set');
+			}
+			
 			if (!in_array($timestamp->timezoneName, $timezone_data) && ($timezone = $timestamp->timezoneName)) {
 				$dst = FALSE;
 				$transitions = $timestamp->timezone->getTransitions(
