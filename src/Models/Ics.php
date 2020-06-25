@@ -119,7 +119,7 @@ class Ics {
 			} else {
 				throw new Exception('No timezone set');
 			}
-			
+
 			if (!in_array($timestamp->timezoneName, $timezone_data) && ($timezone = $timestamp->timezoneName)) {
 				$dst = FALSE;
 				$transitions = $timestamp->timezone->getTransitions(
@@ -165,8 +165,15 @@ class Ics {
 			$events[] = "BEGIN:VEVENT";
 			$events[] = "UID:" . $event->getICSUid();
 			$events[] = "DTSTAMP;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($timestamp);
-			$events[] = "DTSTART;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($event->getICSStartDate());
-			$events[] = "DTEND;TZID="  . $this->formatText($timezone) . ":" . $this->formatDate($event->getICSEndDate());
+
+			if ($event->getICSStartDate() !== NULL) {
+				$events[] = "DTSTART;TZID=". $this->formatText($timezone) . ":" . $this->formatDate($event->getICSStartDate());
+			}
+
+			if ($event->getICSEndDate() !== NULL) {
+				$events[] = "DTEND;TZID="  . $this->formatText($timezone) . ":" . $this->formatDate($event->getICSEndDate());
+			}
+
 
 			$events[] = "SUMMARY:"          . $this->formatText($event->getICSSummary());
 
