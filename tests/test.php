@@ -1,5 +1,6 @@
 <?php
 include('../vendor/autoload.php');
+
 try {
     $ics = new Itzamna\Ics();
     $event = new Itzamna\Event();
@@ -8,7 +9,7 @@ try {
 
     $event->setICSOrganizer('organizer@mail.com');
     $event->setICSUid('19');
-    $event->setICSTimezone(-7);
+	$event->setICSTimezone('America/New_York');
     $event->setICSStartDate('-5 days');
     $event->setICSEndDate('+1 days');
     $event->setICSSummary('Test');
