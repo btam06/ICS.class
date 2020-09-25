@@ -4,7 +4,7 @@ try {
     $ics = new Itzamna\Ics();
     $event = new Itzamna\Event();
 
-    $ics->setICSProdid('prodid');
+    $ics->setICSProdid('Itzamna Events');
 
     $event->setICSOrganizer('organizer@mail.com');
     $event->setICSUid('19');
@@ -22,5 +22,5 @@ try {
     echo $e->getMessage();
 }
 
-echo $ics;
+echo $ics->make();
  ?>
