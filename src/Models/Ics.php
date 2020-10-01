@@ -89,7 +89,7 @@ class Ics {
 
 		ob_start('trim');
 		include_once($this->getTemplate('Ics.php'));
-		$output = ob_end_flush();
+		$output = ob_get_clean();
 
 		if (php_sapi_name() == 'cli') {
 			$out = str_replace("\r\n", PHP_EOL, $output);
