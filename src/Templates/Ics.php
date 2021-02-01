@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Itzamna;
 ?>
 BEGIN:VCALENDAR
@@ -19,20 +19,22 @@ DTSTART:<?= $formatDate($event->getICSStartDate(), $event->getICSTimezone()) ?>
 DTEND:<?= $formatDate($event->getICSEndDate(), $event->getICSTimezone()) ?>
 
 <?php } ?>
-SUMMARY: <?= $formatText($event->getICSSummary()) ?>
-
 <?php if ($event->getICSLocation()) { ?>
 LOCATION: <?= $formatText($event->getICSLocation()) ?>
 
 <?php } ?>
-DESCRIPTION: <?= $formatText($event->getICSDescription()) ?>
-
+<?php if ($event->getICSOrganizer()) { ?>
 ORGANIZER:MAILTO: <?= $event->getICSOrganizer() ?>
 
+<?php } ?>
 <?php if ($event->getICSCategories()) { ?>
 CATEGORIES: <?= $event->getICSCategories() ?>
 
 <?php } ?>
+SUMMARY: <?= $formatText($event->getICSSummary()) ?>
+
+DESCRIPTION: <?= $formatText($event->getICSDescription()) ?>
+
 CLASS:PUBLIC
 END:VEVENT
 <?php } ?>
